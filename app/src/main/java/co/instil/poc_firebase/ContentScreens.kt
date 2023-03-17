@@ -14,7 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 
 class ContentScreens {
-
+}
     @Composable
     fun HomeScreen() {
         Column(
@@ -108,4 +108,3 @@ class ContentScreens {
             )
         }
     }
-}
