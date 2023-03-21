@@ -1,5 +1,6 @@
 package co.instil.poc_firebase
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -38,19 +39,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
-        Firebase.dynamicLinks
-            .getDynamicLink(intent)
-            .addOnSuccessListener(this) { pendingDynamicLinkData: PendingDynamicLinkData? ->
-                //deeplink from result (which may be null if no link found)
-                var deepLink: Uri? = null
-                if (pendingDynamicLinkData != null) {
-                    deepLink = pendingDynamicLinkData.link
-                }
-                // Handle the deep link. For example, open the linked
-                // content, or apply promotional credit to the user's
-                // account.
-            }
     }
 
     @Composable
@@ -131,4 +119,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
 }
