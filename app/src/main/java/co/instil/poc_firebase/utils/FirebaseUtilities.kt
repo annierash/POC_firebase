@@ -5,38 +5,16 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
+import co.instil.poc_firebase.utils.Constants.URI_PREFIX
 import com.google.firebase.dynamiclinks.ktx.*
 import com.google.firebase.ktx.Firebase
 
 
-fun generateShortSharingLink(
-    deepLink: Uri,
-    getShareableLink: (String) -> Unit = {}
-) {
-    FirebaseDynamicLinks.getInstance().createDynamicLink().run {
-        link = deepLink
-        domainUriPrefix = "https://POCfirebase1821.page.link"
-
-        androidParameters {
-            build()
-        }
-
-        buildShortDynamicLink()
-    }.also {
-        it.addOnSuccessListener { dynamicLink ->
-            getShareableLink.invoke(dynamicLink.shortLink.toString())
-        }
-        it.addOnFailureListener { exception ->
-            Log.d(TAG, "generateSharingLink: ${exception.message}")
-        }
-    }
-}
 
 fun buildDeepLink(deepLink: Uri): Uri {
-    val uriPrefix = "https://POCfirebase1821.page.link"
+    val uriPrefix = URI_PREFIX
 
-    val link = Firebase.dynamicLinks.dynamicLink {
+    val deepLink = Firebase.dynamicLinks.dynamicLink {
         domainUriPrefix = uriPrefix
         androidParameters {
             build()
@@ -44,30 +22,30 @@ fun buildDeepLink(deepLink: Uri): Uri {
         link = deepLink
     }
 
-    return link.uri
+    return deepLink.uri
 }
 
-fun shortenLongLink(deepLink: Uri, minSDK: Int) {
-    val uriPrefix = "https://POCfirebase1821.page.link"
 
+fun buildShortLink(deepLink: Uri, minVersion: Int, getShareableLink: (String) -> Unit) {
+    val uriPrefix = URI_PREFIX
     Firebase.dynamicLinks.shortLinkAsync {
-        link = deepLink
         domainUriPrefix = uriPrefix
+        link = Uri.parse(deepLink.toString())
         androidParameters {
-            minimumVersion = minSDK
+            minimumVersion = minVersion
         }
         socialMetaTagParameters {
             title = "Example of a Dynamic Link"
             description = "This link works whether the app is installed or not!"
         }
     }.addOnSuccessListener { dynamicLink ->
-        dynamicLink.shortLink.toString()
-
-
-    }.addOnFailureListener() { e ->
-        Log.e(TAG, e.toString());
+        getShareableLink(dynamicLink.shortLink.toString())
     }
+        .addOnFailureListener{ e ->
+            Log.d(TAG, "generateSharingLink: Failure", e)
+        }
 }
+
 
 
 fun Context.shareDeepLink(deepLink: String) {

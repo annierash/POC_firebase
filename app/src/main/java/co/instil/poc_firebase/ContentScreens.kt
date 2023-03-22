@@ -1,5 +1,6 @@
 package co.instil.poc_firebase
 
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,10 +20,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
-import co.instil.poc_firebase.utils.shareDeepLink
 import androidx.compose.ui.platform.LocalContext
-import co.instil.poc_firebase.utils.buildDeepLink
-import co.instil.poc_firebase.utils.buildShortLink
+import co.instil.poc_firebase.utils.*
+
 
 
 class ContentScreens {
@@ -70,8 +70,9 @@ fun AccountScreen() {
                 .align(CenterHorizontally)
         ) {
             IconButton(onClick = {
-                val newDeepLink = buildShortLink(deepLink = "POCfirebase1821.page.link".toUri(),0)
-                context.shareDeepLink(newDeepLink.toString())
+                buildShortLink(deepLink = "https://https://www.t-mobile.com/?&cmpid=MGPO_PB_P_EVGRNBHV_43700070651103760_593938944718&gclid=CjwKCAjwzuqgBhAcEiwAdj5dRlu7zw3kG3bBlQmY6AtWVGzCsQT2QTbku6h5RdrPIBVd8es3COWUUhoCJswQAvD_BwE&gclsrc=aw.ds".toUri(),0) {
+                context.shareDeepLink(it)
+                }
             }) {
                 Icon(
                     imageVector = Icons.Default.Share,
@@ -104,7 +105,7 @@ fun ShopScreen() {
                 .align(CenterHorizontally)
         ) {
             IconButton(onClick = {
-                val newDeepLink = buildShortLink(deepLink = "POCfirebase1821.page.link".toUri(),0)
+                val newDeepLink = buildDeepLink(deepLink = "https://pocfirebase1821.page.link/qL6j".toUri())
                 context.shareDeepLink(newDeepLink.toString())
             }) {
                 Icon(
@@ -138,8 +139,9 @@ fun BillingScreen() {
                 .align(CenterHorizontally)
         ) {
             IconButton(onClick = {
-                val newDeepLink = buildShortLink(deepLink = "POCfirebase1821.page.link".toUri(),0)
-                context.shareDeepLink(newDeepLink.toString())
+                buildShortLink(deepLink = "https://pocfirebase1821.page.link/qL6j".toUri(),0) {
+                context.shareDeepLink(it)
+                }
             }) {
                 Icon(
                     imageVector = Icons.Default.Share,
@@ -172,7 +174,7 @@ fun HelpScreen() {
                 .align(CenterHorizontally)
         ) {
             IconButton(onClick = {
-                val newDeepLink = buildShortLink(deepLink = "POCfirebase1821.page.link".toUri(),0)
+                val newDeepLink = buildDeepLink(deepLink = "https://pocfirebase1821.page.link/qL6j".toUri())
                 context.shareDeepLink(newDeepLink.toString())
             }) {
                 Icon(
