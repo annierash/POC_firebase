@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import androidx.core.net.toUri
 import co.instil.poc_firebase.utils.Constants.URI_PREFIX
 import com.google.firebase.dynamiclinks.ktx.*
 import com.google.firebase.ktx.Firebase
@@ -18,6 +19,11 @@ fun buildDeepLink(deepLink: Uri): Uri {
         domainUriPrefix = uriPrefix
         androidParameters {
             build()
+        }
+        socialMetaTagParameters {
+            title = "Dynamic Link Example"
+            imageUrl = "https://www.mantralabsglobal.com/wp-content/uploads/2017/05/Android_thumb800.jpg".toUri()
+            description = "Android Phones RULE!"
         }
         link = deepLink
     }
@@ -49,10 +55,12 @@ fun buildShortLink(deepLink: Uri, minVersion: Int, getShareableLink: (String) ->
 
 
 fun Context.shareDeepLink(deepLink: String) {
-    val intent = Intent(Intent.ACTION_SEND)
-    intent.type = "text/plain"
-    intent.putExtra(Intent.EXTRA_SUBJECT, "Firebase Deep Link")
-    intent.putExtra(Intent.EXTRA_TEXT, deepLink)
-    startActivity(intent)
+    val share = Intent.createChooser(Intent().apply {
+    action = Intent.ACTION_SEND
+    type = "text/plain"
+    putExtra(Intent.EXTRA_SUBJECT, "Firebase Deep Link")
+    putExtra(Intent.EXTRA_TEXT, deepLink)
+    }, null)
+    startActivity(share)
 }
 
